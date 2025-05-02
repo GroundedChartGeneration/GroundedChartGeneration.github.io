@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import usePageStore from './store/PageStore'
-//import ImageInformation from './components/ImageInformation'
+import ImageInformation from './components/ImageInformation'
 import ImageComparison from './components/ImageComparison'
 import PageHome from './components/PageHome'
 function App() {
@@ -32,7 +32,7 @@ function App() {
         )}
         {pageIndicator == "Image Information" && (
         <div key="1" className="page">
-          <h2>pages[1]</h2>
+          <ImageInformation />
         </div>
         )}
         {pageIndicator == "Image Comparison" && (
