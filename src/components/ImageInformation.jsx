@@ -7,12 +7,15 @@ const dataCountOptions = [3, 4, 5, 6, 7];
 const cannyOptions = ["default", "sparse", "blur"];
 const assetOptions = ["thin_man", "bottle", "palm_tree", "stack_of_coins", "castle_tower", "balloon", "cactus"];
 const assetSizeOptions = [0.4, 0.6, 0.8];
+const condScaleOptions = [0.6, 0.8, 1.0, 1.2, 1.4];
 
 const initialFilters = {
     data_count: '',
     asset: '',
     canny: '',
     asset_size: '',
+    cond_scale: '', // Added cond_scale here if it wasn't already
+    success: '', // Add success filter state
 };
 
 const ImageInformation = () => {
@@ -34,6 +37,8 @@ const ImageInformation = () => {
     const [loadedImages, setLoadedImages] = useState({});
 
     const [filters, setFilters] = useState(initialFilters);
+    const [successCount, setSuccessCount] = useState(0);
+    const [successRate, setSuccessRate] = useState(0);
 
     const S3_BASE_URL = "https://grounded-chart-generation.s3.ap-northeast-2.amazonaws.com/";
 
@@ -59,12 +64,13 @@ const ImageInformation = () => {
                             img_idx: parseInt(row.img_idx, 10),
                             Det_count: parseInt(row.Det_count, 10),
                             Match_count: parseInt(row.Match_count, 10),
-                            Y_top_err: row.Y_top_err === 'inf' ? Infinity : parseFloat(row.Y_top_err).toFixed(4),
-                            Y_bot_err: row.Y_bot_err === 'inf' ? Infinity : parseFloat(row.Y_bot_err).toFixed(4),
-                            TooWide: row.TooWide === '1',
+                            //Y_top_err: row.Y_top_err === 'inf' ? Infinity : parseFloat(row.Y_top_err).toFixed(4),
+                            //Y_bot_err: row.Y_bot_err === 'inf' ? Infinity : parseFloat(row.Y_bot_err).toFixed(4),
+                            // TooWide: row.TooWide === '1',
                             count_ok: row.count_ok === 'True',
                             align_ok: row.align_ok === 'True',
                             rank_ok: row.rank_ok === 'True',
+                            success: row.success === 'True',
                         }));
                         setMetrics(parsedData);
                         setFilteredData(parsedData);
@@ -89,16 +95,23 @@ const ImageInformation = () => {
         data = data.filter(item => {
             return Object.keys(filters).every(key => {
                 const filterValue = filters[key];
-                // If filterValue is empty ('All'), don't filter by this key
-                if (filterValue === '') {
+                if (filterValue === '') { // 'All' case
                     return true;
                 }
-                // Use == for comparison to handle potential type differences (e.g., number vs string '0.4')
-                // Or ensure types match before comparison if strict equality is needed.
-                // For asset_size, parseFloat might be needed if filterValue is stored as string
+                // Handle boolean 'success' filter specifically
+                if (key === 'success') {
+                    const successValue = filterValue === 'true'; // Convert string 'true'/'false' to boolean
+                    return item[key] === successValue;
+                }
+                // Handle other filters
                 return item[key] == filterValue;
             });
         });
+
+        const currentSuccessCount = data.filter(item => item.success).length;
+        setSuccessCount(currentSuccessCount);
+        setSuccessRate((currentSuccessCount / data.length) * 100 || 0);
+
         setFilteredData(data); // Update filtered data count immediately
 
         // Apply sorting
@@ -107,13 +120,11 @@ const ImageInformation = () => {
                 const aValue = a[sortConfig.key];
                 const bValue = b[sortConfig.key];
 
-                // Handle numeric and potentially infinite values
                 if (typeof aValue === 'number' && typeof bValue === 'number') {
                     if (aValue < bValue) return sortConfig.direction === 'ascending' ? -1 : 1;
                     if (aValue > bValue) return sortConfig.direction === 'ascending' ? 1 : -1;
                     return 0;
                 }
-                // Basic string comparison for non-numeric types
                 const strA = String(aValue).toLowerCase();
                 const strB = String(bValue).toLowerCase();
                 if (strA < strB) return sortConfig.direction === 'ascending' ? -1 : 1;
@@ -184,11 +195,21 @@ const ImageInformation = () => {
         const imageUrl = `${S3_BASE_URL}origin/${item.asset}/scale${item.asset_size}/${imageName}`;
         const compareName = `logarithmic-${item.data_count}-${item.canny}-${item.asset}-scale${item.asset_size}-${item.cond_scale}-${item.img_idx}_compare.png`;
         const compareUrl = `${S3_BASE_URL}compare/${item.asset}/scale${item.asset_size}/${compareName}`;
-        setSelectedImages({ original: imageUrl, compare: compareUrl });
+        // Add metric values to the state
+        setSelectedImages({
+            original: imageUrl,
+            compare: compareUrl,
+            match: item.count_ok,
+            align: item.align_ok,
+            rank: item.rank_ok,
+            // Include Det_count and Match_count if needed in modal, otherwise remove
+            // detCount: item.Det_count,
+            // matchCount: item.Match_count
+        });
     };
 
     const closeModal = () => {
-        setSelectedImages({ original: null, compare: null });
+        setSelectedImages({ original: null, compare: null, match: null, align: null, rank: null }); // Reset metrics too
     };
 
     const columns = [
@@ -198,15 +219,16 @@ const ImageInformation = () => {
         { key: 'canny', label: 'Canny' },
         { key: 'asset_size', label: 'Asset Size' },
         { key: 'cond_scale', label: 'Cond Scale' },
-        { key: 'input_prompt', label: 'Input Prompt' },
+        { key: 'input_prompt', label: 'Prompt for Obj Det' },
         { key: 'Det_count', label: 'Det Count' },
         { key: 'Match_count', label: 'Match Count' },
-        { key: 'Y_top_err', label: 'Y Top Err' },
-        { key: 'Y_bot_err', label: 'Y Bot Err' },
-        { key: 'TooWide', label: 'Too Wide' },
+        //{ key: 'Y_top_err', label: 'Y Top Err' },
+        //{ key: 'Y_bot_err', label: 'Y Bot Err' },
+        //{ key: 'TooWide', label: 'Too Wide' },
         { key: 'count_ok', label: 'Match' },
         { key: 'align_ok', label: 'Align' },
         { key: 'rank_ok', label: 'Rank' },
+        //{ key: 'success', label: 'Success' },
     ];
 
     const getSortIndicator = (columnKey) => {
@@ -258,10 +280,32 @@ const ImageInformation = () => {
                     <select id="asset_size" name="asset_size" value={filters.asset_size} onChange={handleFilterChange}>
                         <option value="">All</option>
                         {assetSizeOptions.map(option => (
-                            <option key={option} value={option}>{option}</option> // Value is numeric
+                            <option key={option.toFixed(1)} value={option.toFixed(1)}>{option.toFixed(1)}</option>
                         ))}
                     </select>
                 </div>
+
+                {/* Conditioning Scale Filter */}
+                <div className="filter-item">
+                    <label htmlFor="cond_scale">Conditioning Scale: </label>
+                    <select id="cond_scale" name="cond_scale" value={filters.cond_scale} onChange={handleFilterChange}>
+                        <option value="">All</option>
+                        {condScaleOptions.map(option => (
+                            <option key={option.toFixed(1)} value={option.toFixed(1)}>{option.toFixed(1)}</option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* Success Filter */}
+                <div className="filter-item">
+                    <label htmlFor="success">Success: </label>
+                    <select id="success" name="success" value={filters.success} onChange={handleFilterChange}>
+                        <option value="">All</option>
+                        <option value="true">Success</option>
+                        <option value="false">Fail</option>
+                    </select>
+                </div>
+
                 {/* Reset Button */}
                 <div className="filter-item">
                     <button onClick={handleResetFilters} className="reset-button">Reset Filters</button>
@@ -279,8 +323,9 @@ const ImageInformation = () => {
                     <option value={100}>100</option>
                 </select>
                 <span> Total items: {filteredData.length}</span>
+                <span> Success items: {successCount}</span>
+                <span> Success rate: {successRate.toFixed(2)}%</span>
             </div>
-
 
             {/* Table Section with conditional styling and thumbnails */}
             <div className="table-container">
@@ -297,7 +342,7 @@ const ImageInformation = () => {
                     </thead>
                     <tbody>
                         {visibleData.map((item, index) => {
-                            const highlightRow = item.count_ok && item.align_ok && item.rank_ok;
+                            const highlightRow = item.success;
                             const thumbName = `logarithmic-${item.data_count}-${item.canny}-${item.asset}-scale${item.asset_size}-${item.cond_scale}-${item.img_idx}-thumb.png`;
                             const thumbnailUrl = `${S3_BASE_URL}thumb/origin/${item.asset}/scale${item.asset_size}/${thumbName}`;
 
@@ -364,12 +409,18 @@ const ImageInformation = () => {
                 </button>
             </div>
 
-            {/* Image Modal - Pass both URLs */}
+            {/* Image Modal - Pass both URLs and metric values */}
             {selectedImages.original && selectedImages.compare && (
                 <ImageModal
                     originalUrl={selectedImages.original}
                     compareUrl={selectedImages.compare}
                     onClose={closeModal}
+                    match={selectedImages.match} // Pass match value
+                    align={selectedImages.align} // Pass align value
+                    rank={selectedImages.rank}   // Pass rank value
+                    // Pass other counts if needed
+                    // detCount = {selectedImages.detCount}
+                    // matchCount = {selectedImages.matchCount}
                 />
             )}
         </div>
