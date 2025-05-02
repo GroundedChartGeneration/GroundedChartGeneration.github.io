@@ -10,7 +10,7 @@ const PageHome = () => {
       {/* horizontal line */}
       <hr />
       <h3>Pipeline</h3>
-      <img src={"/pipeline-3.png"} alt="pipeline" />
+      <img src={"/pipeline.png"} alt="pipeline" />
       <div className="abstract-body">
         <b>Pipeline Description:</b> From (A) an object image having top / middle / bottom parts, it can generate (B) three types of Canny edges (default / blur / sparsify). By arranging the edges for (E) the original bar chart, it can generate (C) small-to-large scale images for controlling the model. Lastly, (F) the ControlNet model can generate embellished bar charts with a degree of conditioning scales.
       </div>
