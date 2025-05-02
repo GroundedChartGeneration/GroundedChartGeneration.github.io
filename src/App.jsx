@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import './App.css'
 import usePageStore from './store/PageStore'
-import ImageSelector from './components/ImageSelector'
+//import ImageInformation from './components/ImageInformation'
+import ImageComparison from './components/ImageComparison'
 import PageHome from './components/PageHome'
 function App() {
   const { pageIndicator, setPageIndicator } = usePageStore();
@@ -10,7 +11,7 @@ function App() {
   return (
     <div className="app-container">
       <div className="header">
-        <h2>Page Navigation Demo</h2>
+        <h2>Demo of Grounded Chart Generation</h2>
         <div className="navigation">
           {pages.map((page, index) => (
             <button
@@ -29,30 +30,16 @@ function App() {
             <PageHome />
           </div>
         )}
-        {pageIndicator == "Basic Table" && (
+        {pageIndicator == "Image Information" && (
         <div key="1" className="page">
           <h2>pages[1]</h2>
-          <ImageSelector />
-          <div className="image-display">
-            <div className="comparison-container">
-              <div className="comparison-left">
-                <h3>4 Data Points</h3>
-                <div className="image-grid">
-                  {/* Images will be dynamically loaded based on selector parameters */}
-                </div>
-              </div>
-              <div className="comparison-right">
-                <h3>6 Data Points</h3>
-                <div className="image-grid">
-                  {/* Images will be dynamically loaded based on selector parameters */}
-                </div>
-              </div>
-            </div>
-          </div>
-          </div>
+        </div>
         )}
         {pageIndicator == "Image Comparison" && (
-          <div key="2" className="page">pages[2]</div>
+          <div key="2" className="page">
+            <h2>pages[2]</h2>
+            <ImageComparison />
+          </div>
         )}
       </main>
     </div>
