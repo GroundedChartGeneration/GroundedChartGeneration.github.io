@@ -37,7 +37,6 @@ function App() {
         )}
         {pageIndicator == "Chart Comparison" && (
           <div key="2" className="page">
-            <h2>pages[2]</h2>
             <ChartComparison />
           </div>
         )}

@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './ImageModal.scss';
 
 const ImageModal = ({ originalUrl, compareUrl, onClose, match, align, rank }) => {
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                onClose();
+            }
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [onClose]);
+
     const handleContentClick = (e) => {
         e.stopPropagation();
     };
