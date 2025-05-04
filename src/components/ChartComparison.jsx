@@ -30,10 +30,10 @@ const ChartComparison = () => {
     const [metrics, setMetrics] = useState([]);
     const [comparisonParam, setComparisonParam] = useState('data_count');
     const [fixedParams, setFixedParams] = useState({
-        data_count: 4,
-        canny: 'sparse',
+        data_count: 3,
+        canny: 'default',
         asset: 'thin_man',
-        asset_size: '0.8',
+        asset_size: '0.4',
     });
     const [comparisonValues, setComparisonValues] = useState(['4', '6']);
     const [displayData, setDisplayData] = useState([]);
