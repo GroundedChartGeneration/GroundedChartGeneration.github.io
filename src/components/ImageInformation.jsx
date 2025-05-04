@@ -29,7 +29,7 @@ const ImageInformation = () => {
 
     // 페이지네이션
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
     const [visibleData, setVisibleData] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
 
@@ -415,12 +415,9 @@ const ImageInformation = () => {
                     originalUrl={selectedImages.original}
                     compareUrl={selectedImages.compare}
                     onClose={closeModal}
-                    match={selectedImages.match} // Pass match value
-                    align={selectedImages.align} // Pass align value
-                    rank={selectedImages.rank}   // Pass rank value
-                    // Pass other counts if needed
-                    // detCount = {selectedImages.detCount}
-                    // matchCount = {selectedImages.matchCount}
+                    match={selectedImages.match}
+                    align={selectedImages.align}
+                    rank={selectedImages.rank}
                 />
             )}
         </div>

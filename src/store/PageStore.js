@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 const usePageStore = create((set) => ({
   pageIndicator: "Home", // Default page is "Home"
-  pages: ["Home", "Image Information", "Image Comparison"],
+  pages: ["Home", "Chart Gallery", "Chart Comparison"],
   // Home: Pipeline Image, Abstract, Sucessful Cases, Dataset Download Links
   // Image Information: Show All Data, with Metadata and Statistics
   // Image Comparison: Comparison Condition Selector, Image Display (Image_Compared) 

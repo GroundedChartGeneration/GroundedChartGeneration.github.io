@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="app-container">
       <div className="header">
-        <h2>Demo of Grounded Chart Generation</h2>
+        <h2>Grounded Generation of Embellished Bar Chart Ensuring Chart Integrity</h2>
         <div className="navigation">
           {pages.map((page, index) => (
             <button
@@ -30,12 +30,12 @@ function App() {
             <PageHome />
           </div>
         )}
-        {pageIndicator == "Image Information" && (
+        {pageIndicator == "Chart Gallery" && (
         <div key="1" className="page">
           <ImageInformation />
         </div>
         )}
-        {pageIndicator == "Image Comparison" && (
+        {pageIndicator == "Chart Comparison" && (
           <div key="2" className="page">
             <h2>pages[2]</h2>
             <ImageComparison />
