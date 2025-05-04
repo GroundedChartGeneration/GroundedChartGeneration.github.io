@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Papa from 'papaparse';
-import './ImageInformation.scss';
+import './ChartGallery.scss';
 import ImageModal from './ImageModal';
 
 const dataCountOptions = [3, 4, 5, 6, 7];
@@ -18,7 +18,7 @@ const initialFilters = {
     success: '', // Add success filter state
 };
 
-const ImageInformation = () => {
+const ChartGallery = () => {
     const [metrics, setMetrics] = useState([]);
     const [filteredData, setFilteredData] = useState([]);
     const [sortConfig, setSortConfig] = useState({
@@ -320,7 +320,6 @@ const ImageInformation = () => {
                     <option value={10}>10</option>
                     <option value={20}>20</option>
                     <option value={50}>50</option>
-                    <option value={100}>100</option>
                 </select>
                 <span> Total items: {filteredData.length}</span>
                 <span> Success items: {successCount}</span>
@@ -424,4 +423,4 @@ const ImageInformation = () => {
     );
 };
 
-export default ImageInformation;
+export default ChartGallery;

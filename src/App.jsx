@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import './App.css'
 import usePageStore from './store/PageStore'
-import ImageInformation from './components/ImageInformation'
-import ImageComparison from './components/ImageComparison'
+import ChartGallery from './components/ChartGallery'
+import ChartComparison from './components/ChartComparison'
 import PageHome from './components/PageHome'
 function App() {
   const { pageIndicator, setPageIndicator } = usePageStore();
@@ -32,13 +32,13 @@ function App() {
         )}
         {pageIndicator == "Chart Gallery" && (
         <div key="1" className="page">
-          <ImageInformation />
+          <ChartGallery />
         </div>
         )}
         {pageIndicator == "Chart Comparison" && (
           <div key="2" className="page">
             <h2>pages[2]</h2>
-            <ImageComparison />
+            <ChartComparison />
           </div>
         )}
       </main>

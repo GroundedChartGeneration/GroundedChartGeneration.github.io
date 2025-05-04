@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const ImageComparison = () => {
+const ChartComparison = () => {
   const data_count = [3, 4, 5, 6, 7];
   const canny_technique = ["default", "sparse", "blur"];
   const asset = ["human", "bottle", "palm tree", "stack of coins", "castle tower", "balloon", "cactus"];
@@ -128,4 +128,4 @@ const ImageComparison = () => {
   );
 };
 
-export default ImageComparison;
+export default ChartComparison;
