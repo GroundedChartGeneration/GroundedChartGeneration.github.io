@@ -59,21 +59,20 @@
         .image-title {
             font-weight: bold;
             color: #333;
-            margin-bottom: 8px; // Add some space below title
+            margin-bottom: 8px;
         }
 
-        // Styles for legend text and boxes
         .legend-text {
-            font-size: 0.8rem; // Smaller font for legend
+            font-size: 0.8rem;
             margin-top: 8px;
         }
         .legend-box {
             display: inline-block;
-            width: 10px; // Smaller box
-            height: 10px; // Smaller box
+            width: 10px;
+            height: 10px;
             border-width: 2px;
             border-style: solid;
-            margin-right: 4px; // Adjust spacing
+            margin-right: 4px;
             vertical-align: middle;
 
             &.legend-green { border-color: green; }
