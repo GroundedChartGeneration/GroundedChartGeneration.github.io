@@ -196,6 +196,7 @@ const ChartComparison = () => {
                 {displayData.map((group, index) => (
                     <div className="comparison-group" key={index}>
                         <div className="comparison-value-selector">
+                          <div className="comparison-value">
                              <label>{paramLabels[comparisonParam]} :</label>
                              <select
                                 value={group.paramValue}
@@ -209,6 +210,10 @@ const ChartComparison = () => {
                              <span className="success-rate-display">
                                  Success: {group.successCount} / {NUM_IMG_IDX * condScaleOptions.length}
                              </span>
+                             </div>
+                             <div>
+                              <span className='hint'>* Click image to see details</span>
+                             </div>
                         </div>
 
                         <div className="inner-comparison-grid">
@@ -273,6 +278,10 @@ const ChartComparison = () => {
                                     ))}
                                 </tbody>
                             </table>
+                        </div>
+                        <div className="legend-text">
+                          <span className="legend-box legend-green"></span>
+                          Success cases&nbsp;&nbsp;&nbsp;
                         </div>
                     </div>
                 ))}

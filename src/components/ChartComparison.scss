@@ -61,32 +61,46 @@
         background-color: #fff;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0rem;
 
         .comparison-value-selector {
              display: flex;
-             align-items: center;
-             gap: 8px;
+             justify-content: space-between;
              margin-bottom: 0.5rem;
 
-             label {
-                 font-size: 13px;
-                 font-weight: 600;
-                 color: #1a1a1a;
+             .comparison-value{
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+                label {
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #1a1a1a;
+                }
+                select {
+                    padding: 6px 8px;
+                    font-size: 12px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    background-color: white;
+                    cursor: pointer;
+                }
+                .success-rate-display {
+                    font-size: 12px;
+                    color: #555;
+                    margin-left: 10px;
+                }
              }
-             select {
-                 padding: 6px 8px;
-                 font-size: 12px;
-                 border: 1px solid #ccc;
-                 border-radius: 4px;
-                 background-color: white;
-                 cursor: pointer;
+             .hint {
+                font-size: 12px;
+                color: #888;
+                margin-top: 5px;
              }
-             .success-rate-display {
-                 font-size: 12px;
-                 color: #555;
-                 margin-left: 10px;
-             }
+
+
+
+             
         }
 
         .inner-comparison-grid {
@@ -157,6 +171,23 @@
                     box-sizing: border-box;
                 }
             }
+        }
+
+        .legend-text {
+            font-size: 12px;
+            margin-top: 8px;
+            text-align: right;
+        }
+        .legend-box {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-width: 2px;
+            border-style: solid;
+            margin-right: 4px;
+            vertical-align: middle;
+
+            &.legend-green { border-color: #a5d0ff; }
         }
 
         .grid-header, .grid-row, .grid-cell {

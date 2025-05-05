@@ -315,15 +315,20 @@ const ChartGallery = () => {
 
             {/* Items Per Page Selector */}
             <div className="items-per-page-selector">
-                <label htmlFor="itemsPerPage">Items per page: </label>
-                <select id="itemsPerPage" value={itemsPerPage} onChange={handleItemsPerPageChange}>
-                    <option value={10}>10</option>
-                    <option value={20}>20</option>
-                    <option value={50}>50</option>
-                </select>
-                <span> Total items: {filteredData.length}</span>
-                <span> Success items: {successCount}</span>
-                <span> Success rate: {successRate.toFixed(2)}%</span>
+                <div className="items-per-page-options">
+                    <label htmlFor="itemsPerPage">Items per page: </label>
+                    <select id="itemsPerPage" value={itemsPerPage} onChange={handleItemsPerPageChange}>
+                        <option value={10}>10</option>
+                        <option value={20}>20</option>
+                        <option value={50}>50</option>
+                    </select>
+                    <span> Total items: {filteredData.length}</span>
+                    <span> Success items: {successCount}</span>
+                    <span> Success rate: {successRate.toFixed(2)}%</span>
+                    </div>
+                <div>
+                    <span className='hint'>* Click image to see details</span>
+                </div>
             </div>
 
             {/* Table Section with conditional styling and thumbnails */}
@@ -389,6 +394,11 @@ const ChartGallery = () => {
                         })}
                     </tbody>
                 </table>
+            </div>
+
+            <div className="legend-text">
+                <span className="legend-box legend-green"></span>
+                Success cases&nbsp;&nbsp;&nbsp;
             </div>
 
             {/* Pagination Controls */}
